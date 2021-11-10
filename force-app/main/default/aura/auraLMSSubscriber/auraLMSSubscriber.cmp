@@ -1,0 +1,21 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    
+    <aura:attribute name="payload" type="String"/>
+    <aura:attribute name="isSubscribed" type="Boolean" default = "false"/>
+    <aura:attribute name="indication" type="String" default = "UNSUBSCRIBED"/>
+    
+    <lightning:messageChannel type="demoMessageChannel__c"
+                              onMessage="{!c.handleChange}"/>
+    
+    <div style="background:#ffffff;padding:0.8rem;height:18.3rem;border-radius:0.3rem">
+        <p class="slds-page-header">Aura Component(SUBSCRIBER)&nbsp; &nbsp; <b><span id = "indicator" style = "color:red;">{!v.indication}</span></b></p><br/>
+        <lightning:button variant="success" label="Subscribe" title="Subscribe" onclick="{! c.subscribe }"/>
+        <lightning:button variant="destructive-text" label="Unsubscribe" title="Subscribe" onclick="{! c.unsubscribe }"/>
+        <br/>
+        <br/>
+        <p>Received message:</p>
+        {!v.payload}
+        
+    </div>
+    
+</aura:component>

@@ -1,0 +1,45 @@
+<apex:page lightningStylesheets="true" showHeader="false" sidebar="false">
+    <apex:slds />
+    <div class="slds-scope">
+        <p class="slds-page-header">Visualforce Page(SUBSCRIBER)&nbsp; &nbsp; <b><span id = "indicator" style = "color:red;">UNSUBSCRIBED</span></b></p><br/>
+        <button class = "slds-button slds-button_success" onclick="subscribeMC()">Subscribe</button>
+        <button class = "slds-button slds-button_text-destructive" onclick="unsubscribeMC()">Unsubscribe</button>
+        <br/><br/>
+        <p>Received message:</p>
+        <label style = "color:black;font-size: var(--lwc-fontSize3,0.8125rem)" id="MCMessageText"/>
+    </div>
+    
+    
+    <script>
+    
+    // Load the MessageChannel token in a variable
+    var MsgChannel = "{!$MessageChannel.demoMessageChannel__c}"; //Message Channel which we created. Acts like a delivery service
+    var subscriptionToMC;
+    
+    // Display message in the textarea field
+    function displayMessage(message) {
+        var textLabel = document.querySelector("#MCMessageText");
+        textLabel.innerHTML = message ? JSON.stringify(message, null, '\t') : '';
+    }
+    
+    function subscribeMC() {
+        
+        if (!subscriptionToMC) {
+            subscriptionToMC = sforce.one.subscribe(MsgChannel, displayMessage);
+            let textLabel = document.querySelector("#indicator");
+            textLabel.innerHTML = 'SUBSCRIBED';
+        }
+    }
+    
+    function unsubscribeMC() {
+        if (subscriptionToMC) {
+            sforce.one.unsubscribe(subscriptionToMC);
+            subscriptionToMC = null;
+            let textLabel = document.querySelector("#indicator");
+            textLabel.innerHTML = 'UNSUBSCRIBED';
+            displayMessage('');
+        }
+    }
+    
+    </script>
+</apex:page>

@@ -1,0 +1,11 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+	<aura:attribute name="message" type="String"/>
+    <lightning:messageChannel type="demoMessageChannel__c" aura:id="messageChannel"/>
+    
+    <div style="background:#ffffff;padding:0.8rem;height:18.3rem;border-radius:0.3rem">
+        <p class="slds-page-header">AURA Component(PUBLISHER)</p>
+         <lightning:textarea name="input1" label="" value="{!v.message}"/>
+        <br/>
+        <lightning:button variant="success" label="Send" title="Send" onclick="{! c.send }"/>
+    </div>
+</aura:component>

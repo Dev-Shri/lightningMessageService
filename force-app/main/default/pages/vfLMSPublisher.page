@@ -1,0 +1,35 @@
+<apex:page controller="LMSController" lightningStylesheets="true" showHeader="false" sidebar="false">
+    <apex:slds />
+    <div class="slds-scope">
+        <p class="slds-page-header">Visualforce Page(PUBLISHER)</p>
+        <br/>
+        <apex:form id="contentForm">
+            <apex:inputTextArea value="{!log.Request__c}"  id="payload" html-maxlength="500" rows="2" cols="30" onchange="getRemoteAccount()"/>
+        </apex:form>
+        <br/>
+        <div class="btn-group">
+            <button class = "slds-button slds-button_success" onclick="sendToLWC('Visualforce Page');">Send</button>
+        </div>
+    </div>
+    
+
+
+<script type="text/javascript">
+    var MsgChannel = "{!$MessageChannel.demoMessageChannel__c}"; //Message Channel which we created. Acts like a delivery service
+    var payload;
+    function getRemoteAccount(){
+        payload = document.getElementById("{!$Component.contentForm.payload}").value;//Unable to access selected value
+    }
+    
+    function sendToLWC(src) {
+        console.log('payload'+payload);
+        const envelope = {
+            source: src,
+            data: payload//'You Pressed '+msg+' Button'    //Make sure Parameter names match exactly with Lightning message fields
+        };
+        sforce.one.publish(MsgChannel,envelope); //Publish Event
+    }
+    
+</script>
+
+</apex:page>
